@@ -1,13 +1,11 @@
 package com.example.authserver;
 
-import com.example.authserver.jpa.ClientRepository;
-import com.example.authserver.jpa.JpaRegisteredClientRepository;
+import com.example.authserver.jpa.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -29,11 +27,23 @@ public class AuthServerApplication {
 		return new JpaRegisteredClientRepository(clientRepository);
 	}
 	@Bean
-	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository) {
+	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository,
+																	UserRepository userRepository) {
 
 		return new ApplicationListener<ApplicationReadyEvent>() {
 			@Override
 			public void onApplicationEvent(ApplicationReadyEvent event) {
+
+				var user = new User();
+				user.setUsername("frank");
+				user.setPassword("password");
+				user.setEnabled(true);
+
+				user.addRole(new Role("role1"));
+
+				user.addGroup(new Group("group1"));
+
+				userRepository.save(user);
 
 				RegisteredClient registeredClient1 = RegisteredClient.withId(UUID.randomUUID().toString())
 						.clientId("login-client")
