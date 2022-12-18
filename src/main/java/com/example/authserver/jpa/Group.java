@@ -22,8 +22,16 @@ public class Group {
     @ManyToMany
     private Set<User> users = new HashSet<>();
 
+    @ManyToMany(mappedBy="groups", cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
+
     public void addUser(User user) {
         this.users.add(user);
+    }
+
+    public void addRole(Role role) {
+        role.addGroup(this);
+        this.roles.add(role);
     }
 
     public String getName() {

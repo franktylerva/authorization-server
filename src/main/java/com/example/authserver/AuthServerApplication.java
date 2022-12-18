@@ -28,7 +28,8 @@ public class AuthServerApplication {
 	}
 	@Bean
 	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository,
-																	UserRepository userRepository) {
+																	UserRepository userRepository,
+																	GroupRepository groupRepository) {
 
 		return new ApplicationListener<ApplicationReadyEvent>() {
 			@Override
@@ -38,11 +39,15 @@ public class AuthServerApplication {
 				user.setUsername("frank");
 				user.setPassword("password");
 				user.setEnabled(true);
+				user = userRepository.save(user);
 
-				user.addRole(new Role("role1"));
+				var role = new Role("role1");
+				user.addRole(role);
 
-				user.addGroup(new Group("group1"));
-
+				var group = new Group("group1");
+				group.addRole(role);
+				groupRepository.save(group);
+				user.addGroup(group);
 				userRepository.save(user);
 
 				RegisteredClient registeredClient1 = RegisteredClient.withId(UUID.randomUUID().toString())

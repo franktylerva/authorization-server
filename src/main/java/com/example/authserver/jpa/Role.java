@@ -21,6 +21,13 @@ public class Role {
     @ManyToMany
     private Set<User> users = new HashSet<>();
 
+    @ManyToMany
+    private Set<Group> groups = new HashSet<>();
+
+    public void addGroup(Group group) {
+        this.groups.add(group);
+    }
+
     public void addUser(User user) {
         this.users.add(user);
     }
