@@ -16,29 +16,30 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
-@Table(name = "`client`")
+@Table(name = "CLIENT")
 public class Client {
 
     public Client() {
     }
 
     @Id
+    @Column(length = 50)
     private String id;
     @Column(length=50)
     @NaturalId
     private String clientId;
-
+    @Column(length = 50)
+    private String clientSecret;
+    @Column(length = 50)
+    private String clientName;
+    private Instant clientSecretExpiresAt = Instant.now().plus(30, ChronoUnit.DAYS);
+    private Instant clientIdIssuedAt = Instant.now();
     @Type(JsonType.class)
     @Column(columnDefinition = "json")
     private Map<String,Object> clientSettings;
-
     @Type(JsonType.class)
     @Column(columnDefinition = "json")
     private Set<String> clientAuthenticationMethods;
-    private Instant clientIdIssuedAt = Instant.now();
-    private String clientSecret;
-    private Instant clientSecretExpiresAt = Instant.now().plus(30, ChronoUnit.DAYS);
-    private String clientName;
 
     @Type(JsonType.class)
     @Column(columnDefinition = "json")
