@@ -1,5 +1,7 @@
 package com.example.authserver;
 
+import com.example.authserver.jpa.ClientRepository;
+import com.example.authserver.jpa.JpaRegisteredClientRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -22,6 +24,10 @@ public class AuthServerApplication {
 		SpringApplication.run(AuthServerApplication.class, args);
 	}
 
+	@Bean
+	RegisteredClientRepository registeredClientRepository(ClientRepository clientRepository) {
+		return new JpaRegisteredClientRepository(clientRepository);
+	}
 	@Bean
 	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository) {
 

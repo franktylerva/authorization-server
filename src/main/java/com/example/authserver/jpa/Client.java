@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
-@Table(name = "CLIENT")
+@Table(name = "OAUTH_CLIENT")
 public class Client {
 
     public Client() {

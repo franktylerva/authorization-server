@@ -5,7 +5,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Component;
 
-@Component
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
 
     private final ClientRepository clientRepository;
