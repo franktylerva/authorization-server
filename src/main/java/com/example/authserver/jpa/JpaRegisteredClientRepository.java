@@ -3,7 +3,6 @@ package com.example.authserver.jpa;
 import com.example.authserver.mapper.ClientMapper;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
-import org.springframework.stereotype.Component;
 
 public class JpaRegisteredClientRepository implements RegisteredClientRepository {
 

@@ -1,22 +1,24 @@
 package com.example.authserver.api;
 
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import com.example.authserver.jpa.Client;
+import com.example.authserver.jpa.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/clients")
+@RequiredArgsConstructor
 public class ClientController {
 
-    JdbcOAuth2AuthorizationService oAuth2AuthorizationService;
+    private final ClientRepository clientRepository;
 
     @GetMapping
-    public void clients() {
-
+    public List<Client> clients() {
+        return clientRepository.findAll();
     }
-
-
 
 }

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 
+import java.util.Set;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -29,7 +31,7 @@ public class AuthServerApplication {
 	@Bean
 	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository,
 																	UserRepository userRepository,
-																	GroupRepository groupRepository) {
+																	PasswordEncoder encoder) {
 
 		return new ApplicationListener<ApplicationReadyEvent>() {
 			@Override
@@ -37,17 +39,11 @@ public class AuthServerApplication {
 
 				var user = new User();
 				user.setUsername("frank");
-				user.setPassword("password");
+				user.setPassword(encoder.encode("password"));
+				user.addGroup(new Group("user"));
+
 				user.setEnabled(true);
-				user = userRepository.save(user);
 
-				var role = new Role("role1");
-				user.addRole(role);
-
-				var group = new Group("group1");
-				group.addRole(role);
-				groupRepository.save(group);
-				user.addGroup(group);
 				userRepository.save(user);
 
 				RegisteredClient registeredClient1 = RegisteredClient.withId(UUID.randomUUID().toString())
