@@ -1,5 +1,7 @@
-package com.example.authserver.jpa;
+package com.example.authserver.service;
 
+import com.example.authserver.jpa.JpaUserDetails;
+import com.example.authserver.jpa.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 
-import java.util.Set;
 import java.util.UUID;
 
 @SpringBootApplication
@@ -25,14 +24,9 @@ public class AuthServerApplication {
 	}
 
 	@Bean
-	RegisteredClientRepository registeredClientRepository(ClientRepository clientRepository) {
-		return new JpaRegisteredClientRepository(clientRepository);
-	}
-	@Bean
 	ApplicationListener<ApplicationReadyEvent> aapplicationListener(RegisteredClientRepository repository,
 																	UserRepository userRepository,
 																	PasswordEncoder encoder) {
-
 		return new ApplicationListener<ApplicationReadyEvent>() {
 			@Override
 			public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -48,7 +42,7 @@ public class AuthServerApplication {
 
 				RegisteredClient registeredClient1 = RegisteredClient.withId(UUID.randomUUID().toString())
 						.clientId("login-client")
-						.clientSecret("{noop}secret")
+						.clientSecret("secret")
 						.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
 						.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
 						.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)

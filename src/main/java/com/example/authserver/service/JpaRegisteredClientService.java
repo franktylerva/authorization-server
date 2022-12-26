@@ -1,18 +1,19 @@
-package com.example.authserver.jpa;
+package com.example.authserver.service;
 
+import com.example.authserver.jpa.ClientRepository;
 import com.example.authserver.mapper.ClientMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.stereotype.Service;
 
-public class JpaRegisteredClientRepository implements RegisteredClientRepository {
+@Service
+@RequiredArgsConstructor
+public class JpaRegisteredClientService implements RegisteredClientRepository {
 
     private final ClientRepository clientRepository;
 
     private final ClientMapper clientMapper = new ClientMapper();
-
-    public JpaRegisteredClientRepository(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
     @Override
     public void save(RegisteredClient registeredClient) {
