@@ -38,6 +38,7 @@ public class ClientMapper {
         client.setClientSecretExpiresAt( registeredClient.getClientSecretExpiresAt() );
         client.setClientSettings( registeredClient.getClientSettings().getSettings() );
         client.setRedirectUris( registeredClient.getRedirectUris() );
+        client.setTokenSettings( registeredClient.getTokenSettings().getSettings() );
         client.setScopes( registeredClient.getScopes() );
 
         return client;

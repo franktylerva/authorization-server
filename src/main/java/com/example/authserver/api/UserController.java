@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/users")
@@ -19,31 +20,31 @@ public class UserController {
     @GetMapping
     public List<UserResponse> users() {
         return userRepository.findAll().stream().map(user -> {
-            return new UserResponse(user.getUsername(), user.isEnabled());
+            return new UserResponse(user.getId(), user.getUsername(), user.isEnabled(), user.getPassword());
         }).toList();
     }
 
-    @PostMapping("/{username}")
+    @PostMapping("/")
     public ResponseEntity<Object> createUser(@PathVariable String username, @RequestBody UserRequest userRequest) {
-        userRepository.save(userRequest.user());
+        var newUser = userRepository.save(userRequest.user());
         var location = UriComponentsBuilder.fromPath("/api/users/{username}")
-                .buildAndExpand(username).toUri();
+                .buildAndExpand(newUser.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/{username}")
-    public UserResponse findUser(@PathVariable String username) {
+    @GetMapping("/{id}")
+    public UserResponse findUser(@PathVariable UUID id) {
 
-        var found = userRepository.findById(username);
+        var found = userRepository.findById(id);
 
         if(found.isPresent()) {
             var u = found.get();
-            return new UserResponse(u.getUsername(), u.isEnabled());
+            return new UserResponse(u.getId(), u.getUsername(), u.isEnabled(), u.getPassword());
         }
-        throw new UserNotFoundException(username);
+        throw new UserNotFoundException(id.toString());
     }
 
-    record UserResponse(String username, boolean enabled){};
+    record UserResponse(UUID id, String username, boolean enabled, String password){};
 
     record UserRequest(User user){};
 

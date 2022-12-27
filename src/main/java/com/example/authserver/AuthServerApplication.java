@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 
 import java.util.UUID;
 
@@ -54,6 +55,9 @@ public class AuthServerApplication {
 						.scope("message.read")
 						.scope("message.write")
 						.clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
+						.tokenSettings(TokenSettings.builder()
+								.reuseRefreshTokens(true)
+								.build())
 						.build();
 
 				repository.save(registeredClient1);

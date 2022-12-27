@@ -3,10 +3,12 @@ package com.example.authserver.jpa;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "USERS")
@@ -17,7 +19,11 @@ import java.util.Set;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     @Column(length=50)
+    @NaturalId
     private String username;
     @Column(length=500)
     private String password;
