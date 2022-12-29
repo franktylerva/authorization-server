@@ -1,0 +1,22 @@
+/*nav + .container, nav + .container-fluid {*/
+/*  margin-top: 20px;*/
+
+/*}*/
+
+.card {
+  margin-top: 2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-floating {
+  margin-bottom: .5em;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.client-submit {
+  float: right;
+}
